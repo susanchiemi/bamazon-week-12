@@ -15,10 +15,9 @@ var connection = mysql.createConnection({
 connection.connect(function(err){
     if (err) throw err;
     console.log("connection successful!");
+    makeTable();
 })
 
-//make table to print to screen
-//NOT WORKING FOR ME
 var makeTable = function(){
     connection.query("SELECT * FROM products", function(err,res){
         for(var i=0; i<res.length; i++){
@@ -34,20 +33,15 @@ var makeTable = function(){
             message:"What would you like to purchase? [Quite with Q]"
         }]).then(function(answer){
             var correct = false;
-            if(answer.choice.toUpperCase()=="Q"){
-                process.exist();
-            }
-
-
             for(var i=0;i<res.length;i++){
                 if(res[i].productname==answer.choice){
                     correct=true;
                     var product=answer.choice;
                     var id=i;
-                    inquirer.prompt({
+                    inquirer.prompt([{
                         type:"input",
                         name:"quant",
-                        message:"How much would you like to buy",
+                        message:"How much would you like to buy?",
                         validate: function(value){
                             if(isNan(value)==false){
                                 return true;
@@ -55,16 +49,32 @@ var makeTable = function(){
                                 return false;
                             }
                         }
-                    }).then(function(answer){
+                    }]).then(function(answer){
                         if((res[id].stockquanity-answer.quant)>0){
                             connection.query("UPDATE products SET stockquantity='"+(res[id].stockquantity-answer.quant)+"' WHERE productname='"+product+"'", function(err,res2){
                                 console.log("Product Bought!");
                                 makeTable();
                             })
-                        }else {
+                        } else {
                             console.log("Not a valid selection!");
                             promptCustomer(res);
                         }
+                    })
+                }
+            }
+        })
+    }   
+ /*           if(answer.choice.toUpperCase()=="Q"){
+                process.exist();
+            }
+
+            for(var i=0;i<res.length;i++){
+                if(res[i].productname==answer.choice){
+                    correct=true;
+                    var product=answer.choice;
+                    var id=i;
+                    
+                    
                     })
                 }
             }
@@ -75,3 +85,8 @@ var makeTable = function(){
         })
 
     }
+    
+    }
+        }
+    })
+} */

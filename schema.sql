@@ -10,7 +10,7 @@ create table products (
 	primary key (itemid)
 );
 
-INSERT INTO products(ProductName,DepartmentName,Price,StockQuantity)
+INSERT INTO products(productname,departmentname,price,stockquantity)
 VALUES ("Uncharted 4", "VideoGames",49.95,150),
 	("Doom","Video Games",59.99,200),
 	("Crate of Spam","Food and Drink",24.50,50);
