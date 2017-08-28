@@ -41,6 +41,8 @@ var makeTable = function(){
                     inquirer.prompt([{
                         type:"input",
                         name:"quant",
+                        // How much would like to buy? 
+                        // Throws an error isNan
                         message:"How much would you like to buy?",
                         validate: function(value){
                             if(isNan(value)==false){
